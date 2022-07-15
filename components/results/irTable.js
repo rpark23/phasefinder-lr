@@ -182,104 +182,106 @@ export default function IRTable() {
   const { intragenic, partial, intergenic } = typeChecks;
 
   return (
-    <TableContainer component={Paper} className={styles.IRs} elevation={8}>
-      <Table sx={{ minWidth: 650 }} size="small">
-        <TableHead>
-          <TableRow key="header">{cols.map((col) => 
-            <TableCell style={{width: col.width}} key={col.id}>
-              <h4> {col.header} </h4>
-              {
-                col.filter === 'slider' ? 
-                <div className={styles.sliderHeader}>
-                  <Slider
-                  value={values[col.id]}
-                  name={col.id}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
-                  style={{width: '95%'}}
-                  max={col.max}
-                  step={col.step}
-                  disableSwap
-                  />
-                  <div className={styles.sliderInput}>
-                    <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
-                      onChange={(e) => handleType(e, 0)} value={values[col.id][0]} className={styles.input}/>
-                    <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
-                      onChange={(e) => handleType(e, 1)} value={values[col.id][1]} className={styles.input}/>
+    <div className={styles.IRcontainer}>
+      <TableContainer component={Paper} className={styles.IRs} elevation={8}>
+        <Table sx={{ minWidth: 650 }} size="small">
+          <TableHead>
+            <TableRow key="header">{cols.map((col) => 
+              <TableCell style={{width: col.width}} key={col.id}>
+                <h4> {col.header} </h4>
+                {
+                  col.filter === 'slider' ? 
+                  <div className={styles.sliderHeader}>
+                    <Slider
+                    value={values[col.id]}
+                    name={col.id}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    style={{width: '95%'}}
+                    max={col.max}
+                    step={col.step}
+                    disableSwap
+                    />
+                    <div className={styles.sliderInput}>
+                      <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
+                        onChange={(e) => handleType(e, 0)} value={values[col.id][0]} className={styles.input}/>
+                      <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
+                        onChange={(e) => handleType(e, 1)} value={values[col.id][1]} className={styles.input}/>
+                    </div>
+                    
+                  </div> : col.filter === 'search' ?
+                  <form onSubmit={search}>
+                    <input type="text" name={col.id} style={{width: '95%'}} className={styles.input} onChange={handleQuery} />
+                  </form> : 
+                  <div className={styles.checkboxes}>
+                    <FormControlLabel control={<Checkbox name="intragenic" checked={intragenic} onChange={handleCheck} size="small"/>} 
+                      label="intragenic" className={styles.checkbox} />
+                    <FormControlLabel control={<Checkbox name="partial" checked={partial} onChange={handleCheck} size="small"/>} 
+                      label="partial" className={styles.checkbox} />
+                    <FormControlLabel control={<Checkbox name="intergenic" checked={intergenic} onChange={handleCheck} size="small"/>} 
+                      label="intergenic" className={styles.checkbox} />
                   </div>
-                  
-                </div> : col.filter === 'search' ?
-                <form onSubmit={search}>
-                  <input type="text" name={col.id} style={{width: '95%'}} className={styles.input} onChange={handleQuery} />
-                </form> : 
-                <div className={styles.checkboxes}>
-                  <FormControlLabel control={<Checkbox name="intragenic" checked={intragenic} onChange={handleCheck} size="small"/>} 
-                    label="intragenic" className={styles.checkbox} />
-                  <FormControlLabel control={<Checkbox name="partial" checked={partial} onChange={handleCheck} size="small"/>} 
-                    label="partial" className={styles.checkbox} />
-                  <FormControlLabel control={<Checkbox name="intergenic" checked={intergenic} onChange={handleCheck} size="small"/>} 
-                    label="intergenic" className={styles.checkbox} />
-                </div>
-              }
-            </TableCell>)}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {hits ? hits.slice(pageSize*(page-1), pageSize*page).map(row => 
-            <TableRow key={row.id} onClick={(e) => handleClickOpen(e, row.id-1) /*window.open(`/ir/${row.id}`, '_blank')*/} className={styles.tableRow}>
-              {
-                cols.map(col => <td key={col.id}>{col.id == "ratio" ? row[col.id].toFixed(3) : 
-                col.id == 'length' ? row['rStart'] - row['lEnd'] : row[col.id]}</td>)
-              }
-            </TableRow>) : null}
-        </TableBody>
-      </Table>
-      {open ? 
-      <Dialog
-        fullWidth={true}
-        maxWidth='xl'
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle>{currID+1}. {DATA[currID].index}</DialogTitle>
-        <DialogContent>
-         <RunTable i={currJ} ir={DATA[currID]}/>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog> : null
-      }
-      <div className={styles.tableFooter}>
-        <p>{Math.min(hits.length, pageSize*page, pageSize*(page-1)+1)}-{Math.min(hits.length, pageSize*page)} of {hits ? hits.length == 1 ? "1 IR found" : hits.length + " IRs found" : null}</p>
-        <div className={styles.pagination}>
-          <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 1}
-          >
-            <FirstPageIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleBackButtonClick}
+                }
+              </TableCell>)}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {hits ? hits.slice(pageSize*(page-1), pageSize*page).map(row => 
+              <TableRow key={row.id} onClick={(e) => handleClickOpen(e, row.id-1) /*window.open(`/ir/${row.id}`, '_blank')*/} className={styles.tableRow}>
+                {
+                  cols.map(col => <td key={col.id}>{col.id == "ratio" ? row[col.id].toFixed(3) : 
+                  col.id == 'length' ? row['rStart'] - row['lEnd'] : row[col.id]}</td>)
+                }
+              </TableRow>) : null}
+          </TableBody>
+        </Table>
+        {open ? 
+        <Dialog
+          fullWidth={true}
+          maxWidth='xl'
+          open={open}
+          onClose={handleClose}
+        >
+          <DialogTitle>{currID+1}. {DATA[currID].index}</DialogTitle>
+          <DialogContent>
+          <RunTable i={currJ} ir={DATA[currID]}/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Back</Button>
+          </DialogActions>
+        </Dialog> : null
+        }
+        <div className={styles.tableFooter}>
+          <p>{Math.min(hits.length, pageSize*page, pageSize*(page-1)+1)}-{Math.min(hits.length, pageSize*page)} of {hits ? hits.length == 1 ? "1 IR found" : hits.length + " IRs found" : null}</p>
+          <div className={styles.pagination}>
+            <IconButton
+            onClick={handleFirstPageButtonClick}
             disabled={page === 1}
-          >
-            <KeyboardArrowLeft />
-          </IconButton>
-          <p>Page {Math.min(Math.ceil(hits.length / pageSize), page)} of {Math.ceil(hits.length / pageSize)}</p>
-          <IconButton
-            onClick={handleNextButtonClick}
-            disabled={page >=Math.ceil(hits.length / pageSize)}
-          >
-            <KeyboardArrowRight />
-          </IconButton>
-          <IconButton
-            onClick={handleLastPageButtonClick}
-            disabled={page >= Math.ceil(hits.length / pageSize)}
-          >
-            <LastPageIcon />
-          </IconButton>
+            >
+              <FirstPageIcon />
+            </IconButton>
+            <IconButton
+              onClick={handleBackButtonClick}
+              disabled={page === 1}
+            >
+              <KeyboardArrowLeft />
+            </IconButton>
+            <p>Page {Math.min(Math.ceil(hits.length / pageSize), page)} of {Math.ceil(hits.length / pageSize)}</p>
+            <IconButton
+              onClick={handleNextButtonClick}
+              disabled={page >=Math.ceil(hits.length / pageSize)}
+            >
+              <KeyboardArrowRight />
+            </IconButton>
+            <IconButton
+              onClick={handleLastPageButtonClick}
+              disabled={page >= Math.ceil(hits.length / pageSize)}
+            >
+              <LastPageIcon />
+            </IconButton>
+          </div>
         </div>
-      </div>
-    </TableContainer>
+      </TableContainer>
+    </div>
   );
 }
