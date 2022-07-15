@@ -16,12 +16,11 @@
   flex-direction: column;
   margin-top: 5vh;
   padding: 1rem 1rem 0.25rem;
-  /*width: 90vw;*/
 }
 
 .runs {
   margin-top: 0;
-  width: 60%;
+  /*width: 45vw;*/
 }
 
 .IRs .sliderHeader,
@@ -96,6 +95,10 @@
 .runs .pagination {
   align-items: center;
   display: flex;
+}
+
+.runTable {
+  width: 60%;
 }
 
 .runContainer {

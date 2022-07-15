@@ -244,7 +244,7 @@ export default function IRTable() {
         >
           <DialogTitle>{currID+1}. {DATA[currID].index}</DialogTitle>
           <DialogContent>
-          <RunTable i={currJ} ir={DATA[currID]}/>
+            <RunTable i={currJ} ir={DATA[currID]}/>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Back</Button>

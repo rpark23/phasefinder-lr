@@ -163,6 +163,7 @@ export default function RunTable(props) {
           </div>: null
         }
       </div>
+      <div className={styles.runTable}>
       <TableContainer component={Paper} className={styles.runs} elevation={8}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -238,8 +239,8 @@ export default function RunTable(props) {
           </div>
         </div>: null
         }
-        
       </TableContainer>
+      </div>
     </div>
   );
 }
