@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Welcome from '../components/welcome'
+import Welcome from '../components/Welcome'
 import Results from '../components/results/Results'
 
 export default function Home() {
