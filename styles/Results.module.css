@@ -1,0 +1,95 @@
+.resultsContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 4.5rem;
+  min-height: 100vh;
+  overflow-y: scroll;
+}
+
+.IRs, .runs {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
+  padding: 1rem 1rem 0.25rem;
+  width: 90%;
+}
+
+.runs {
+  margin-top: 1rem;
+  width: 70%;
+}
+
+.IRs .sliderHeader,
+.runs .sliderHeader {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.IRs .sliderInput, 
+.runs .sliderInput {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.IRs .input,
+.runs .input {
+  border-color: #ccc;
+  border-radius: 0.2rem;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0.5rem 0;
+  padding: 0.2rem 0.2rem 0.2rem 0.5rem;
+}
+
+.IRs .input:hover,
+.runs .input:hover {
+  border-color: #777;
+}
+
+.IRs .checkboxes {
+  display: flex;
+  flex-direction: column;
+  margin: 0.3rem 0;
+}
+
+.IRs .checkbox {
+  padding: 0;
+  box-sizing: border-box;
+  height: 20px;
+}
+
+.IRs tr:nth-child(even),
+.runs tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.IRs .tableRow:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+
+.IRs td,
+.runs td {
+  padding: 5px;
+  padding-left: 20px;
+}
+
+.IRs .tableFooter,
+.runs .tableFooter {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+
+}
+
+.IRs .pagination,
+.runs .pagination {
+  align-items: center;
+  display: flex;
+}
