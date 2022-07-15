@@ -27,10 +27,10 @@ export default function RunTable(props) {
   const [hits, setHits] = useState(null);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(10);
+  const { i, ir } = props;
 
   useEffect(() => {
-    const { i } = props;
     let results = [];
     for (let x=0; x<i.length; x++) {
       results.push(DATA[i[x]]);
@@ -113,82 +113,133 @@ export default function RunTable(props) {
   };
 
   return (
-    <TableContainer component={Paper} className={styles.runs} elevation={8}>
-      <Table sx={{ minWidth: 650 }} size="small">
-        <TableHead>
-          <TableRow key="header">{cols.map((col) => 
-            <TableCell style={{width: col.width}} key={col.id}>
-              <h4> {col.header} </h4>
-              {
-                col.filter === 'slider' ? 
-                <div className={styles.sliderHeader}>
-                  <Slider
-                  value={values[col.id]}
-                  name={col.id}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
-                  style={{width: '95%'}}
-                  max={maxValues[col.id]}
-                  step={col.step}
-                  />
-                  <div className={styles.sliderInput}>
-                    <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
-                      onChange={(e) => handleType(e, 0)} value={values[col.id][0]} className={styles.input}/>
-                    <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
-                      onChange={(e) => handleType(e, 1)} value={values[col.id][1]} className={styles.input}/>
-                  </div>
-                </div> : col.filter === 'search' ?
-                <form onSubmit={search}>
-                  <input type="text" name={col.id} style={{width: '95%'}} className={styles.input} onChange={handleQuery} />
-                </form> : 
-                null
-              }
-            </TableCell>)}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {hits ? hits.slice(pageSize*(page-1), pageSize*page).map(row => 
-            <TableRow key={row.id}>
-              {
-                cols.map(col => <td key={col.id}>{col.id == "ratio" ? row[col.id].toFixed(3) : row[col.id]}</td>)
-              }
-            </TableRow>) : null}
-        </TableBody>
-      </Table>
-      {
-        hits ? 
-        <div className={styles.tableFooter}>
-        <p>{pageSize*(page-1)+1}-{Math.min(hits.length, pageSize*page)} of {hits ? hits.length == 1 ? "1 run found" : hits.length + " runs found" : null}</p>
-        <div className={styles.pagination}>
-          <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 1}
-          >
-            <FirstPageIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleBackButtonClick}
-            disabled={page === 1}
-          >
-            <KeyboardArrowLeft />
-          </IconButton>
-          <p>Page {page} of {Math.ceil(hits.length / pageSize)}</p>
-          <IconButton
-            onClick={handleNextButtonClick}
-            disabled={page >=Math.ceil(hits.length / pageSize)}
-          >
-            <KeyboardArrowRight />
-          </IconButton>
-          <IconButton
-            onClick={handleLastPageButtonClick}
-            disabled={page >= Math.ceil(hits.length / pageSize)}
-          >
-            <LastPageIcon />
-          </IconButton>
+    <div className={styles.runContainer}>
+      <div className={styles.IRinfo}>
+        <div className={styles.species}>
+          <h2>{ir.species}</h2>
+          <p>{ir.genome}</p>
         </div>
-      </div>: null
-      }
-      
-    </TableContainer>
+        <div className={styles.IRtype}>
+          <h4>Type of IR: </h4>
+          <p>{ir.type1}</p>
+        </div>
+        <div className={styles.reads}>
+          <div>
+            <h4>Left Repeat: </h4>{ir.lEnd - ir.lStart} bps
+          </div>
+          <div>
+            <h4>Length of IR: </h4>{ir.rStart - ir.lEnd} bps
+          </div>
+          <div>
+            <h4>Right Repeat: </h4>{ir.rEnd - ir.rStart} bps
+          </div>
+        </div>
+        <div className={styles.reads}>
+          <div>
+            <h4>Forward Reads: </h4>{ir.fReads} 
+          </div>
+          <div>
+            <h4>Reverse Reads: </h4>{ir.rReads} 
+          </div>
+          <div>
+            <h4>Ratio: </h4>{ir.ratio}
+          </div>
+        </div>
+        {
+          ir.product1 ? 
+          <div className={styles.gene}>
+            <div>
+              <h4>Product: </h4>
+              <p>{ir.product1}</p>
+            </div>
+            <div>
+              <h4>Inference: </h4>
+              <p>{ir.inference1}</p>
+            </div>
+            <div>
+              <h4>Note: </h4>
+              <p>{ir.note1}</p>
+            </div>
+          </div>: null
+        }
+      </div>
+      <TableContainer component={Paper} className={styles.runs} elevation={8}>
+        <Table sx={{ minWidth: 650 }} size="small">
+          <TableHead>
+            <TableRow key="header">{cols.map((col) => 
+              <TableCell style={{width: col.width}} key={col.id}>
+                <h4> {col.header} </h4>
+                {
+                  col.filter === 'slider' ? 
+                  <div className={styles.sliderHeader}>
+                    <Slider
+                    value={values[col.id]}
+                    name={col.id}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    style={{width: '95%'}}
+                    max={maxValues[col.id]}
+                    step={col.step}
+                    />
+                    <div className={styles.sliderInput}>
+                      <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
+                        onChange={(e) => handleType(e, 0)} value={values[col.id][0]} className={styles.input}/>
+                      <input name={col.id} type="number" min="0" max={col.max} step={col.step} 
+                        onChange={(e) => handleType(e, 1)} value={values[col.id][1]} className={styles.input}/>
+                    </div>
+                  </div> : col.filter === 'search' ?
+                  <form onSubmit={search}>
+                    <input type="text" name={col.id} style={{width: '95%'}} className={styles.input} onChange={handleQuery} />
+                  </form> : 
+                  null
+                }
+              </TableCell>)}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {hits ? hits.slice(pageSize*(page-1), pageSize*page).map(row => 
+              <TableRow key={row.id}>
+                {
+                  cols.map(col => <td key={col.id}>{col.id == "ratio" ? row[col.id].toFixed(3) : row[col.id]}</td>)
+                }
+              </TableRow>) : null}
+          </TableBody>
+        </Table>
+        {
+          hits ? 
+          <div className={styles.tableFooter}>
+          <p>{pageSize*(page-1)+1}-{Math.min(hits.length, pageSize*page)} of {hits ? hits.length == 1 ? "1 run found" : hits.length + " runs found" : null}</p>
+          <div className={styles.pagination}>
+            <IconButton
+            onClick={handleFirstPageButtonClick}
+            disabled={page === 1}
+            >
+              <FirstPageIcon />
+            </IconButton>
+            <IconButton
+              onClick={handleBackButtonClick}
+              disabled={page === 1}
+            >
+              <KeyboardArrowLeft />
+            </IconButton>
+            <p>Page {page} of {Math.ceil(hits.length / pageSize)}</p>
+            <IconButton
+              onClick={handleNextButtonClick}
+              disabled={page >=Math.ceil(hits.length / pageSize)}
+            >
+              <KeyboardArrowRight />
+            </IconButton>
+            <IconButton
+              onClick={handleLastPageButtonClick}
+              disabled={page >= Math.ceil(hits.length / pageSize)}
+            >
+              <LastPageIcon />
+            </IconButton>
+          </div>
+        </div>: null
+        }
+        
+      </TableContainer>
+    </div>
   );
 }

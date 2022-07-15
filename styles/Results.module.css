@@ -16,8 +16,8 @@
 }
 
 .runs {
-  margin-top: 1rem;
-  width: 70%;
+  margin-top: 0;
+  width: 60%;
 }
 
 .IRs .sliderHeader,
@@ -92,4 +92,36 @@
 .runs .pagination {
   align-items: center;
   display: flex;
+}
+
+.runContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2vw;
+}
+
+.runContainer .IRinfo {
+  width: 35%;
+}
+
+.runContainer .species {
+  margin: 1rem 0;
+}
+
+.runContainer .IRinfo .IRtype {
+  margin-bottom: 1rem;
+}
+
+.runContainer .IRinfo .reads {
+  display: flex;
+}
+
+.runContainer .IRinfo .reads > div {
+  margin-right: 1vw;
+  margin-bottom: 1rem;
+}
+
+
+.runContainer .gene div {
+  margin-bottom: 1rem;
 }

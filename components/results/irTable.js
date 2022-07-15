@@ -1,6 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
-import DATA from './data/IRs.json'
+import DATA from './data/fullTable.json'
+import indices from '../../components/results/data/runIndices.json'
 import { cols } from './data/IR_columns'
+import RunTable from '../../components/results/RunTable';
 
 import styles from '../../styles/Results.module.css'
 
@@ -19,6 +21,12 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function IRTable() {
   const [queries, setQueries] = useState({'id': '', 'species': '', 'type1': ''});
@@ -32,6 +40,9 @@ export default function IRTable() {
   });
 
   const [hits, setHits] = useState(DATA);
+  const [open, setOpen] = useState(false);
+  const [currID, setCurrID] = useState(null);
+  const [currJ, setCurrJ] = useState(null);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(15);
@@ -73,9 +84,9 @@ export default function IRTable() {
     );
     setHits(hits);
 
-    console.log(hits.map(
+    /*console.log(hits.map(
       row => row.rStart - row.lEnd
-    ).sort(compareNumbers).reverse());
+    ).sort(compareNumbers).reverse());*/
   }
 
   const handleFirstPageButtonClick = () => {
@@ -154,6 +165,20 @@ export default function IRTable() {
     search();
   }, [types, values]);
 
+  const handleClickOpen = (e, id) => {
+    e.preventDefault();
+    const j = indices.filter(
+      row => row.index == DATA[id].index
+    )[0].indices;
+    setOpen(true);
+    setCurrID(id);
+    setCurrJ(j);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const { intragenic, partial, intergenic } = typeChecks;
 
   return (
@@ -201,7 +226,7 @@ export default function IRTable() {
         </TableHead>
         <TableBody>
           {hits ? hits.slice(pageSize*(page-1), pageSize*page).map(row => 
-            <TableRow key={row.id} onClick={() => window.open(`/ir/${row.id}`, '_blank')} className={styles.tableRow}>
+            <TableRow key={row.id} onClick={(e) => handleClickOpen(e, row.id-1) /*window.open(`/ir/${row.id}`, '_blank')*/} className={styles.tableRow}>
               {
                 cols.map(col => <td key={col.id}>{col.id == "ratio" ? row[col.id].toFixed(3) : 
                 col.id == 'length' ? row['rStart'] - row['lEnd'] : row[col.id]}</td>)
@@ -209,6 +234,22 @@ export default function IRTable() {
             </TableRow>) : null}
         </TableBody>
       </Table>
+      {open ? 
+      <Dialog
+        fullWidth={true}
+        maxWidth='xl'
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogTitle>{currID+1}. {DATA[currID].index}</DialogTitle>
+        <DialogContent>
+         <RunTable i={currJ} ir={DATA[currID]}/>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog> : null
+      }
       <div className={styles.tableFooter}>
         <p>{Math.min(hits.length, pageSize*page, pageSize*(page-1)+1)}-{Math.min(hits.length, pageSize*page)} of {hits ? hits.length == 1 ? "1 IR found" : hits.length + " IRs found" : null}</p>
         <div className={styles.pagination}>
