@@ -20,8 +20,8 @@ export default function Intro() {
             </ul>
           </li>
           <li className={styles.point}>Here, we focus on the <strong>835 IRs</strong> within the coding sequence of{' '} 
-            "<span className={styles.underline}>chromosomal replication initiator protein DnaA</span>" 
-             from 115 unique species/strains.
+          &ldquo;<span className={styles.underline}>chromosomal replication initiator protein DnaA</span>&rdquo;{' '}
+            from 115 unique species/strains.
             <ul className={styles.indent}>
               <li className={styles.point2}>The majority (430 IRs) were from <strong>Clostridioides difficile</strong> runs.</li>
               {<DnaAspecies />}
