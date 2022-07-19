@@ -1,0 +1,177 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*height: 100vh;*/
+  text-align: center;
+
+  padding-bottom: 10vh;
+}
+
+.title {
+  margin-top: 1.5rem;
+  font-size: 2rem; /*5vh;*/
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.4rem;
+  margin-top: 1rem;
+  text-align: left;
+  width: 50vw;
+}
+
+.description .point {
+  margin-top: 1rem;
+}
+
+.description .indent {
+  padding-left: 2rem !important;
+}
+
+.description .indent .point2 {
+  margin-top: 0.25rem;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
+.description a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.description a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  background-color: white;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5vh 3vh;
+  position: absolute;
+  width: 100%;
+}
+
+.dnaAContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: -3rem;
+}
+
+.dnaApairs,
+.dnaATable {
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  width: 40vw;
+}
+
+.dnaApairs {
+  width: 75vw;
+}
+
+.dnaApairs .pair,
+.dnaATable .species {
+  display: flex;
+  flex-direction: column;
+  margin: 1.25rem 0 1rem;
+  padding: 0.5rem 1.5rem 0;
+}
+
+.dnaApairs .pair h4,
+.dnaATable .species h4 {
+  font-size: 0.9rem;
+}
+
+.dnaApairs .pair .sliderHeader,
+.dnaATable .species .sliderHeader {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.dnaApairs .pair .sliderInput,
+.dnaATable .species .sliderInput {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dnaApairs .pair .input,
+.dnaATable .species .input {
+  border-color: #ccc;
+  border-radius: 0.2rem;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0.5rem 0;
+  padding: 0.2rem 0.2rem 0.2rem 0.5rem;
+}
+
+.dnaApairs .pair .input:hover,
+.dnaATable .species .input:hover {
+  border-color: #777;
+}
+
+.dnaApairs .pair tr:nth-child(even),
+.dnaATable .species tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.dnaApairs .pair .tableRow:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.dnaApairs .pair td,
+.dnaATable .species td {
+  padding: 5px;
+  padding-left: 20px;
+}
+
+.dnaApairs .pair .tableFooter,
+.dnaATable .species .tableFooter {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dnaApairs .pair .pagination,
+.dnaATable .species .pagination {
+  align-items: center;
+  display: flex;
+}
+
+.comparison {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comparison .identity {
+  margin-bottom: 1vh;
+}
+
+.comparison > div {
+  display: flex;
+  margin-top: 1vh;
+}
+
+.comparison > div > h4 {
+  text-align: center;
+  width: 10vw;
+}
+
+.comparison > div > p {
+  text-align: center;
+  margin: 0 3vw;
+  width: 30vw;
+
+  overflow-wrap: break-word;
+}
